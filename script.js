@@ -37,6 +37,12 @@ autocomplete.addEventListener('keydown', (e) => {
   }
 });
 
+// autocomplete.addEventListener('scroll', (e) => {
+//   // var element = document.getElementById("yourDivID");
+//   console.log(111)
+//   // autocomplete.scrollTop = autocomplete.scrollHeight;
+// });
+
 function focusItem(n) {
   const item = document.querySelector('#autocomplete > ul > li:nth-child(' + n + ')');
   item.addEventListener('keyup', (e) => { 
