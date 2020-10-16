@@ -8,8 +8,9 @@ body {
 }
 
 #search {
-  padding: 8px;
+  padding: 4px 8px;
   width: calc(15rem - 16px);
+  border: 1px solid grey;
 }
 
 #autocomplete {

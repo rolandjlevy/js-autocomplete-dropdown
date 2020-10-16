@@ -2,33 +2,70 @@ import words from '/words.js';
 
 const input = document.querySelector('#search');
 const autocomplete = document.querySelector('#autocomplete');
+input.focus();
+let index = 0;
 
 input.addEventListener('keyup', (e) => {
   if (e.target.value) {
-    const found = findWord(e.target.value);
-    if (found) autocomplete.classList.remove('hide');
+    autocomplete.innerHTML = '';
+    const found = findWords(e.target.value);
+    if (found.length) {
+      autocomplete.classList.remove('hide');
+      generateDropdown(found);
+    }
+    if (e.keyCode == 40) {
+      index = 1;
+      focusItem(index);
+    }
   } else {
     autocomplete.classList.add('hide');
   }
 });
 
-function findWord(str) {
-  const match = words.filter(item => str === item.substring(0, str.length));
-  if (!match.length) return false;
+autocomplete.addEventListener('keydown', (e) => {
+  const items = document.querySelectorAll('#autocomplete > ul > li');
+  if (items.length) {
+    switch (e.keyCode) {
+      case 38:
+        if (index > 1) index--;
+        break;
+      case 40:
+        if (index < items.length) index++;
+        break;
+    }
+    focusItem(index);
+  }
+});
+
+function focusItem(n) {
+  const item = document.querySelector('#autocomplete > ul > li:nth-child(' + n + ')');
+  item.addEventListener('keydown', (e) => { 
+    if (e.key == 'Enter') resetAutoComplete(e.target.textContent, 'keydown');
+  });
+  item.focus();
+}
+
+function resetAutoComplete(label, event) {
+  search.value = label;
+  event === 'click' && search.focus();
+  autocomplete.classList.add('hide');
   autocomplete.innerHTML = '';
+}
+
+const findWords = str =>  words.filter(item => str === item.substring(0, str.length));
+
+function generateDropdown(items) {
   const ul = document.createElement('ul');
-  match.forEach(item => {
+  items.forEach((item, index) => {
     const li = document.createElement('li');
     li.textContent = item;
+    li.tabIndex = index;
     li.addEventListener('click', (e) => {
-      search.value = item;
-      autocomplete.classList.add('hide');
-      autocomplete.innerHTML = '';
+      resetAutoComplete(item, 'click');
     });
     ul.appendChild(li);
   });
   autocomplete.appendChild(ul);
-  return true;
 }
 
 function findWordReduce(str) {
