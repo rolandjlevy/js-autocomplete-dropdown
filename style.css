@@ -1,0 +1,49 @@
+body {
+  margin: 30px;
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+}
+
+#search {
+  padding: 8px;
+  width: calc(15rem - 16px);
+}
+
+#autocomplete {
+  display: block;
+  margin: 0;
+  border: 1px solid grey;
+  height: fit-content;
+  width: 15rem;
+}
+
+#autocomplete.hide {
+  display: none;
+  height: 0;
+}
+
+#autocomplete, #search {
+  line-height: 1.5;
+}
+
+#autocomplete > ul {
+  margin: 0;
+  padding: 0;
+}
+
+#autocomplete > ul > li:not(:last-child) {
+  border-bottom: 1px solid rgb(221, 221, 221);
+} 
+
+#autocomplete > ul > li {
+  padding: 4px 8px;
+  cursor: pointer;
+  list-style: none;
+} 
+
+#autocomplete > ul > li:hover {
+  background-color: #f0f0f0;
+} 
