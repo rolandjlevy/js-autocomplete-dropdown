@@ -39,15 +39,15 @@ autocomplete.addEventListener('keydown', (e) => {
 
 function focusItem(n) {
   const item = document.querySelector('#autocomplete > ul > li:nth-child(' + n + ')');
-  item.addEventListener('keydown', (e) => { 
-    if (e.key == 'Enter') resetAutoComplete(e.target.textContent, 'keydown');
+  item.addEventListener('keyup', (e) => { 
+    if (e.key == 'Enter') resetAutoComplete(e.target.textContent);
   });
   item.focus();
 }
 
-function resetAutoComplete(label, event) {
+function resetAutoComplete(label) {
   search.value = label;
-  event === 'click' && search.focus();
+  search.focus();
   autocomplete.classList.add('hide');
   autocomplete.innerHTML = '';
 }
@@ -61,7 +61,7 @@ function generateDropdown(items) {
     li.textContent = item;
     li.tabIndex = index;
     li.addEventListener('click', (e) => {
-      resetAutoComplete(item, 'click');
+      resetAutoComplete(item);
     });
     ul.appendChild(li);
   });

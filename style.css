@@ -1,3 +1,8 @@
+:root {
+  --mid-grey: #aaa;
+  --light-grey: #ddd;
+}
+
 body {
   margin: 30px;
 }
@@ -10,13 +15,13 @@ body {
 #search {
   padding: 4px 8px;
   width: calc(15rem - 16px);
-  border: 1px solid grey;
+  border: 1px solid var(--mid-grey);
 }
 
 #autocomplete {
   display: block;
   margin: 0;
-  border: 1px solid grey;
+  border: 1px solid var(--mid-grey);
   height: fit-content;
   width: 15rem;
 }
@@ -33,10 +38,12 @@ body {
 #autocomplete > ul {
   margin: 0;
   padding: 0;
+  max-height: 150px;
+  overflow-y: auto;
 }
 
 #autocomplete > ul > li:not(:last-child) {
-  border-bottom: 1px solid rgb(221, 221, 221);
+  border-bottom: 1px solid var(--light-grey);
 } 
 
 #autocomplete > ul > li {
@@ -45,6 +52,7 @@ body {
   list-style: none;
 } 
 
-#autocomplete > ul > li:hover {
+#autocomplete > ul > li:hover,
+#autocomplete > ul > li:focus {
   background-color: #f0f0f0;
 } 
