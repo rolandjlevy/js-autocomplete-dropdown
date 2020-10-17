@@ -102,3 +102,17 @@ function findWordBasic(str) {
   }, '');
   return list.length ? `<ul>${list}</ul>` : false;
 }
+
+const baseUrl = 'https://api.datamuse.com';
+const max = 25;
+
+function fetchWords(search) {
+  const url = `${baseUrl}/sug?s=${search}&max=${max}`;
+  fetch(url)
+  .then(res => res.json())
+  .then(list => {
+    console.log(list);
+  });
+}
+
+fetchWords('hay');
