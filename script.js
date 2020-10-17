@@ -81,10 +81,11 @@ inputBasic.focus();
 const autocompleteBasic = getElement('#autocomplete-basic');
 
 inputBasic.addEventListener('keyup', (e) => {
+  autocompleteBasic.innerHTML = '';
   if (e.target.value) {
-    autocompleteBasic.innerHTML = '';
     const found = findWordBasic(e.target.value);
     if (found.length) {
+      autocompleteBasic.innerHTML = found;
       autocompleteBasic.classList.remove('hide');
     }
   } else {
