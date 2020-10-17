@@ -1,8 +1,11 @@
-import words from '/words.js';
+import words from './src/words.js';
+import { createElement, getElement, getAllElements } from './src/helpers.js';
 
-const input = document.querySelector('#search');
-const autocomplete = document.querySelector('#autocomplete');
+const input = getElement('#search');
 input.focus();
+
+const autocomplete = getElement('#autocomplete');
+
 let index = 0;
 
 input.addEventListener('keyup', (e) => {
@@ -23,7 +26,7 @@ input.addEventListener('keyup', (e) => {
 });
 
 autocomplete.addEventListener('keydown', (e) => {
-  const items = document.querySelectorAll('#autocomplete > ul > li');
+  const items = getAllElements('#autocomplete > ul > li');
   if (items.length) {
     switch (e.keyCode) {
       case 38:
@@ -37,14 +40,8 @@ autocomplete.addEventListener('keydown', (e) => {
   }
 });
 
-// autocomplete.addEventListener('scroll', (e) => {
-//   // var element = document.getElementById("yourDivID");
-//   console.log(111)
-//   // autocomplete.scrollTop = autocomplete.scrollHeight;
-// });
-
 function focusItem(n) {
-  const item = document.querySelector('#autocomplete > ul > li:nth-child(' + n + ')');
+  const item = getElement('#autocomplete > ul > li:nth-child(' + n + ')');
   item.addEventListener('keyup', (e) => { 
     if (e.key == 'Enter') resetAutoComplete(e.target.textContent);
   });
@@ -58,12 +55,12 @@ function resetAutoComplete(label) {
   autocomplete.innerHTML = '';
 }
 
-const findWords = str =>  words.filter(item => str === item.substring(0, str.length));
+const findWords = str => words.filter(item => str === item.substring(0, str.length));
 
 function generateDropdown(items) {
-  const ul = document.createElement('ul');
+  const ul = createElement('ul');
   items.forEach((item, index) => {
-    const li = document.createElement('li');
+    const li = createElement('li');
     li.textContent = item;
     li.tabIndex = index;
     li.addEventListener('click', (e) => {
@@ -74,7 +71,28 @@ function generateDropdown(items) {
   autocomplete.appendChild(ul);
 }
 
-function findWordReduce(str) {
+////////////////////
+/* words from api */
+////////////////////
+
+const inputBasic = getElement('#search-basic');
+inputBasic.focus();
+
+const autocompleteBasic = getElement('#autocomplete-basic');
+
+inputBasic.addEventListener('keyup', (e) => {
+  if (e.target.value) {
+    autocompleteBasic.innerHTML = '';
+    const found = findWordBasic(e.target.value);
+    if (found.length) {
+      autocompleteBasic.classList.remove('hide');
+    }
+  } else {
+    autocompleteBasic.classList.add('hide');
+  }
+});
+
+function findWordBasic(str) {
   const list = words.reduce((acc, item) => {
     if (str === item.substring(0, str.length)) {
       acc += `<li>${item}</li>`;
