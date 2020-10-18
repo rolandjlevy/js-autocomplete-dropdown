@@ -12,13 +12,22 @@ body {
   font-size: 1rem;
 }
 
-#search {
+#search, #search-basic {
   padding: 4px 8px;
   width: calc(15rem - 16px);
   border: 1px solid var(--mid-grey);
 }
 
-#autocomplete {
+.btn {
+  padding: 4px 8px;
+  line-height: 1.5;
+  border: 1px solid var(--mid-grey);
+  border-left: none;
+  cursor: pointer;
+}
+
+#autocomplete,
+#autocomplete-basic {
   display: block;
   margin: 0;
   border: 1px solid var(--mid-grey);
@@ -26,33 +35,44 @@ body {
   width: 15rem;
 }
 
-#autocomplete.hide {
+#autocomplete.hide,
+#autocomplete-basic.hide {
   display: none;
   height: 0;
 }
 
-#autocomplete, #search {
+#autocomplete, #autocomplete-basic, 
+#search, #search-basic {
   line-height: 1.5;
 }
 
-#autocomplete > ul {
+#autocomplete > ul,
+#autocomplete-basic > ul {
   margin: 0;
   padding: 0;
   max-height: 150px;
   overflow-y: auto;
 }
 
-#autocomplete > ul > li:not(:last-child) {
+#autocomplete > ul > li:not(:last-child),
+#autocomplete-basic > ul > li:not(:last-child) {
   border-bottom: 1px solid var(--light-grey);
 } 
 
-#autocomplete > ul > li {
+#autocomplete > ul > li,
+#autocomplete-basic > ul > li {
   padding: 4px 8px;
   cursor: pointer;
   list-style: none;
 } 
 
 #autocomplete > ul > li:hover,
-#autocomplete > ul > li:focus {
+#autocomplete > ul > li:focus, 
+#autocomplete-basic > ul > li:hover,
+#autocomplete-basic > ul > li:focus {
   background-color: #f0f0f0;
 } 
+
+hr {
+  border: none;
+}

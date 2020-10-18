@@ -77,42 +77,71 @@ function generateDropdown(items) {
 
 const inputBasic = getElement('#search-basic');
 inputBasic.focus();
-
 const autocompleteBasic = getElement('#autocomplete-basic');
+const baseUrl = 'https://api.datamuse.com';
+const max = 100;
 
 inputBasic.addEventListener('keyup', (e) => {
-  autocompleteBasic.innerHTML = '';
-  if (e.target.value) {
-    const found = findWordBasic(e.target.value);
-    if (found.length) {
-      autocompleteBasic.innerHTML = found;
-      autocompleteBasic.classList.remove('hide');
-    }
+  const str = e.target.value.toLowerCase();
+  if (str.length > 2) {
+    getWords(str).then(list => {
+      const found = findMatch(list, str);
+      if (found.length) {
+        autocompleteBasic.innerHTML = found;
+        autocompleteBasic.classList.remove('hide');
+        bindClickEvents();
+      }
+    });
   } else {
     autocompleteBasic.classList.add('hide');
   }
 });
 
-function findWordBasic(str) {
-  const list = words.reduce((acc, item) => {
-    if (str === item.substring(0, str.length)) {
-      acc += `<li>${item}</li>`;
+function bindClickEvents() {
+  const items = getAllElements('#autocomplete-basic > ul > li');
+  items.forEach(item => {
+    item.addEventListener('click', (e) => {
+      inputBasic.value = e.target.textContent;
+      autocompleteBasic.classList.add('hide');
+    });
+  });
+}
+
+function getWords(str) {
+  return new Promise((resolve, reject) => {
+    const url = `${baseUrl}/sug?s=${str}&max=${max}`;
+    return fetch(url).then(response => {
+      if (response.ok) {
+        resolve(response.json())
+      } else {
+        reject(new Error('error'));
+      }
+    }, error => {
+      reject(new Error(error.message))
+    });
+  });
+}
+
+function findMatch(arr, str) {
+  const list = arr.reduce((acc, item) => {
+    if (str === item.word.substring(0, str.length)) {
+      acc += `<li>${item.word}</li>`;
     }
     return acc;
   }, '');
   return list.length ? `<ul>${list}</ul>` : false;
 }
 
-const baseUrl = 'https://api.datamuse.com';
-const max = 25;
+getElement('#youtube-search').addEventListener('click', (e) => {
+  window.open(`https://www.youtube.com/results?search_query=${inputBasic.value}`, '_blank');
+});
 
-function fetchWords(search) {
-  const url = `${baseUrl}/sug?s=${search}&max=${max}`;
-  fetch(url)
-  .then(res => res.json())
-  .then(list => {
-    console.log(list);
-  });
-}
+getElement('#google-search').addEventListener('click', (e) => {
+  window.open(`https://www.google.com/search?q=${inputBasic.value}`, '_blank');
+});
 
-fetchWords('hay');
+getElement('#wiki-search').addEventListener('click', (e) => {
+  window.open(`https://en.wikipedia.org/wiki/${inputBasic.value}`, '_blank');
+});
+
+
