@@ -31,6 +31,7 @@ body {
   display: block;
   margin: 0;
   border: 1px solid var(--mid-grey);
+  border-top: none;
   height: fit-content;
   width: 15rem;
 }
@@ -56,7 +57,7 @@ body {
 
 #autocomplete > ul > li:not(:last-child),
 #autocomplete-basic > ul > li:not(:last-child) {
-  border-bottom: 1px solid var(--light-grey);
+  border-bottom: 1px solid transparent;
 } 
 
 #autocomplete > ul > li,

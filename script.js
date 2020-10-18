@@ -9,9 +9,10 @@ const autocomplete = getElement('#autocomplete');
 let index = 0;
 
 input.addEventListener('keyup', (e) => {
-  if (e.target.value) {
+  const str = e.target.value.toLowerCase();
+  if (str) {
     autocomplete.innerHTML = '';
-    const found = findWords(e.target.value);
+    const found = findWords(str);
     if (found.length) {
       autocomplete.classList.remove('hide');
       generateDropdown(found);
