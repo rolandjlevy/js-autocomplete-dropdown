@@ -103,6 +103,7 @@ function bindClickEvents() {
   items.forEach(item => {
     item.addEventListener('click', (e) => {
       inputBasic.value = e.target.textContent;
+      inputBasic.focus();
       autocompleteBasic.classList.add('hide');
     });
   });
